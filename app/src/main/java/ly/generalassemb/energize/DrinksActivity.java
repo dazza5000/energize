@@ -35,9 +35,9 @@ public class DrinksActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Drink redbull = new Drink(1, "Red Bull", "The original", 8.0, 3.00, 1);
-        Drink monster = new Drink(2, "Monster", "Energy!", 16.0, 2.00, 2);
-        Drink bawls = new Drink(3, "Bawls", "Gamerz", 12.0, 2.00, 3);
+        Drink redbull = new Drink(1, "Red Bull", "The original", 8.0, 3.00, "red_bull.jpg", 1);
+        Drink monster = new Drink(2, "Monster", "Energy!", 16.0, 2.00, "monster_energy.jpg", 2);
+        Drink bawls = new Drink(3, "Bawls", "Gamerz", 12.0, 2.00, "red_bull.jpg", 3);
 
 //        drinkList = new ArrayList<>();
 //
@@ -46,9 +46,10 @@ public class DrinksActivity extends AppCompatActivity {
 //        drinkList.add(bawls);
 
         dbHelper = DatabaseHelper.getInstance(getApplicationContext());
-        dbHelper.insertDrink("Red Bull", "The original", 8.0, 3.00, 1);
-        dbHelper.insertDrink("Monster", "Energy!", 16.0, 2.00, 2);
-        dbHelper.insertDrink("Bawls", "Gamerz", 12.0, 2.00, 3);
+        dbHelper.cleanDatabase();
+        dbHelper.insertDrink("Red Bull", "The original", 8.0, 3.00, "red_bull", 1);
+        dbHelper.insertDrink("Monster", "Energy!", 16.0, 2.00, "monster_energy", 2);
+        dbHelper.insertDrink("Bawls", "Gamerz", 12.0, 2.00, "red_bull", 3);
 
         drinkList = dbHelper.getAllDrinks();
 
@@ -86,6 +87,7 @@ public class DrinksActivity extends AppCompatActivity {
             public boolean onMenuItemActionCollapse(MenuItem item) {
                 drinkList = dbHelper.getAllDrinks();
                 drinkAdapter.setDrinksList(drinkList);
+                drinkRecyclerView.scrollToPosition(0);
                 return true;  // Return true to collapse action view
             }
 
@@ -118,6 +120,7 @@ public class DrinksActivity extends AppCompatActivity {
             String query = intent.getStringExtra(SearchManager.QUERY);
             drinkList = dbHelper.searchDrinks(query);
             drinkAdapter.setDrinksList(drinkList);
+            drinkRecyclerView.scrollToPosition(0);
         }
     }
 

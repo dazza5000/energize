@@ -5,6 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import ly.generalassemb.energize.data.DatabaseHelper;
 import ly.generalassemb.energize.data.Drink;
 
@@ -39,6 +41,8 @@ public class DrinkDetailActivity extends AppCompatActivity {
 
         drinkNameTextView.setText(drink.getName());
         drinkDescriptionTextView.setText(drink.getDescription());
+        int id = this.getResources().getIdentifier(drink.getImageLocation(), "drawable", this.getPackageName());
+        Picasso.with(DrinkDetailActivity.this).load(id).into(drinkImageView);
 
     }
 }

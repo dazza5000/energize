@@ -25,6 +25,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         public static final String COLUMN_DRINK_DESCRIPTION = "description";
         public static final String COLUMN_DRINK_SIZE = "size";
         public static final String COLUMN_DRINK_PRICE = "price";
+        public static final String COLUMN_DRINK_IMAGE = "image";
         public static final String COLUMN_DRINK_MANUFACTURER = "manufacturer";
     }
 
@@ -37,6 +38,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + DataEntryDrinks.COLUMN_DRINK_DESCRIPTION + " text not null, "
             + DataEntryDrinks.COLUMN_DRINK_SIZE + " double not null, "
             + DataEntryDrinks.COLUMN_DRINK_PRICE + " double not null, "
+            + DataEntryDrinks.COLUMN_DRINK_IMAGE + " text not null, "
             + DataEntryDrinks.COLUMN_DRINK_MANUFACTURER + " int not null" +
     ");";
 
@@ -63,8 +65,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    public void cleanDatabase() {
+        SQLiteDatabase db = getWritableDatabase();
+        String drinkCleanQuery = "DELETE FROM "+DataEntryDrinks.TABLE_DRINKS +";";
+        db.execSQL(drinkCleanQuery);
+
+    }
+
     public void insertDrink(String name, String description, double size, double price,
-                            int manufacturer){
+                            String image, int manufacturer){
         // Get a reference to the database
         SQLiteDatabase db = getWritableDatabase();
 
@@ -74,6 +83,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(DataEntryDrinks.COLUMN_DRINK_DESCRIPTION, description);
         values.put(DataEntryDrinks.COLUMN_DRINK_SIZE, size);
         values.put(DataEntryDrinks.COLUMN_DRINK_PRICE, price);
+        values.put(DataEntryDrinks.COLUMN_DRINK_IMAGE, image);
         values.put(DataEntryDrinks.COLUMN_DRINK_MANUFACTURER, manufacturer);
 
         // Insert the row into the drinks table
@@ -92,7 +102,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String[] projection = new String[]{ DataEntryDrinks._ID, DataEntryDrinks.COLUMN_DRINK_NAME,
                 DataEntryDrinks.COLUMN_DRINK_DESCRIPTION,
                 DataEntryDrinks.COLUMN_DRINK_SIZE, DataEntryDrinks.COLUMN_DRINK_PRICE,
-                DataEntryDrinks.COLUMN_DRINK_MANUFACTURER};
+                DataEntryDrinks.COLUMN_DRINK_IMAGE, DataEntryDrinks.COLUMN_DRINK_MANUFACTURER};
 
         // Make the query, getting the cursor object
         Cursor cursor = db.query(DataEntryDrinks.TABLE_DRINKS, projection, null, null,
@@ -111,10 +121,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     cursor.getColumnIndex(DataEntryDrinks.COLUMN_DRINK_SIZE));
             double price = cursor.getDouble(
                     cursor.getColumnIndex(DataEntryDrinks.COLUMN_DRINK_PRICE));
+            String image = cursor.getString(
+                    cursor.getColumnIndex(DataEntryDrinks.COLUMN_DRINK_IMAGE));
             int manufacturerId = cursor.getInt(
                     cursor.getColumnIndex(DataEntryDrinks.COLUMN_DRINK_MANUFACTURER));
 
-            drinks.add(new Drink(id, name, description, size, price, manufacturerId));
+            drinks.add(new Drink(id, name, description, size, price, image, manufacturerId));
             cursor.moveToNext();
         }
         return drinks;
@@ -129,7 +141,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String[] projection = new String[]{ DataEntryDrinks._ID, DataEntryDrinks.COLUMN_DRINK_NAME,
                 DataEntryDrinks.COLUMN_DRINK_DESCRIPTION,
                 DataEntryDrinks.COLUMN_DRINK_SIZE, DataEntryDrinks.COLUMN_DRINK_PRICE,
-                DataEntryDrinks.COLUMN_DRINK_MANUFACTURER};
+                DataEntryDrinks.COLUMN_DRINK_IMAGE, DataEntryDrinks.COLUMN_DRINK_MANUFACTURER};
 
         // Define a selection, which defines the WHERE clause of the query (but not the values for it)
         // similar to "WHERE x < 23", only without the value; "WHERE x < ?"
@@ -154,10 +166,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 cursor.getColumnIndex(DataEntryDrinks.COLUMN_DRINK_SIZE));
         double price = cursor.getDouble(
                 cursor.getColumnIndex(DataEntryDrinks.COLUMN_DRINK_PRICE));
+        String image = cursor.getString(
+                cursor.getColumnIndex(DataEntryDrinks.COLUMN_DRINK_IMAGE));
         int manufacturerId = cursor.getInt(
                 cursor.getColumnIndex(DataEntryDrinks.COLUMN_DRINK_MANUFACTURER));
 
-        return new Drink(id, name, description, size, price, manufacturerId);
+        return new Drink(id, name, description, size, price, image, manufacturerId);
     }
 
     public List<Drink> searchDrinks(String searchString){
@@ -170,7 +184,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String[] projection = new String[]{ DataEntryDrinks._ID, DataEntryDrinks.COLUMN_DRINK_NAME,
                 DataEntryDrinks.COLUMN_DRINK_DESCRIPTION,
                 DataEntryDrinks.COLUMN_DRINK_SIZE, DataEntryDrinks.COLUMN_DRINK_PRICE,
-                DataEntryDrinks.COLUMN_DRINK_MANUFACTURER};
+                DataEntryDrinks.COLUMN_DRINK_IMAGE, DataEntryDrinks.COLUMN_DRINK_MANUFACTURER};
 
         // Define a selection, which defines the WHERE clause of the query (but not the values for it)
         // similar to "WHERE x < 23", only without the value; "WHERE x < ?"
@@ -180,7 +194,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         // Define the selection values. The ?'s in the selection
         // The number of values in the following array should equal the number of ? in the where clause
-        String[] selectionArgs = new String[]{"'%" + searchString + "%'"};
+        String[] selectionArgs = new String[]{"%" + searchString + "%"};
 
         // Make the query, getting the cursor object
         Cursor cursor = db.query(DataEntryDrinks.TABLE_DRINKS, projection, selection, selectionArgs,
@@ -199,10 +213,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     cursor.getColumnIndex(DataEntryDrinks.COLUMN_DRINK_SIZE));
             double price = cursor.getDouble(
                     cursor.getColumnIndex(DataEntryDrinks.COLUMN_DRINK_PRICE));
+            String image = cursor.getString(
+                    cursor.getColumnIndex(DataEntryDrinks.COLUMN_DRINK_IMAGE));
             int manufacturerId = cursor.getInt(
                     cursor.getColumnIndex(DataEntryDrinks.COLUMN_DRINK_MANUFACTURER));
 
-            drinks.add(new Drink(id, name, description, size, price, manufacturerId));
+            drinks.add(new Drink(id, name, description, size, price, image, manufacturerId));
             cursor.moveToNext();
         }
         return drinks;
