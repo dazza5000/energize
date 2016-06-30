@@ -188,17 +188,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         // Define a selection, which defines the WHERE clause of the query (but not the values for it)
         // similar to "WHERE x < 23", only without the value; "WHERE x < ?"
-        String selection = DataEntryDrinks.COLUMN_DRINK_NAME + " LIKE ?";
-//        + " OR "
-//                + DataEntryDrinks.COLUMN_DRINK_DESCRIPTION + " LIKE ?";
+//        String selection = DataEntryDrinks.COLUMN_DRINK_NAME + " LIKE ? OR "
+//         + DataEntryDrinks.COLUMN_DRINK_DESCRIPTION + " LIKE ?";
+
+        String selection = "Select * from drinks where " + DataEntryDrinks.COLUMN_DRINK_DESCRIPTION + " LIKE ? OR "
+                + DataEntryDrinks.COLUMN_DRINK_DESCRIPTION + " LIKE ?";
 
         // Define the selection values. The ?'s in the selection
         // The number of values in the following array should equal the number of ? in the where clause
-        String[] selectionArgs = new String[]{"%" + searchString + "%"};
+        String[] selectionArgs = new String[]{"%" + searchString + "%", "%" + searchString + "%"};
 
         // Make the query, getting the cursor object
-        Cursor cursor = db.query(DataEntryDrinks.TABLE_DRINKS, projection, selection, selectionArgs,
-                null, null, null, null);
+        Cursor cursor = db.rawQuery(selection, selectionArgs);
 
         // With the cursor, create a new game object and return it
         cursor.moveToFirst();

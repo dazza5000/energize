@@ -35,9 +35,9 @@ public class DrinksActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Drink redbull = new Drink(1, "Red Bull", "The original", 8.0, 3.00, "red_bull.jpg", 1);
-        Drink monster = new Drink(2, "Monster", "Energy!", 16.0, 2.00, "monster_energy.jpg", 2);
-        Drink bawls = new Drink(3, "Bawls", "Gamerz", 12.0, 2.00, "red_bull.jpg", 3);
+//        Drink redbull = new Drink(1, "Red Bull", "The original", 8.0, 3.00, "red_bull.jpg", 1);
+//        Drink monster = new Drink(2, "Monster", "Energy!", 16.0, 2.00, "monster_energy.jpg", 2);
+//        Drink bawls = new Drink(3, "Bawls", "Gamerz", 12.0, 2.00, "bawls.jpg", 3);
 
 //        drinkList = new ArrayList<>();
 //
@@ -47,9 +47,12 @@ public class DrinksActivity extends AppCompatActivity {
 
         dbHelper = DatabaseHelper.getInstance(getApplicationContext());
         dbHelper.cleanDatabase();
-        dbHelper.insertDrink("Red Bull", "The original", 8.0, 3.00, "red_bull", 1);
-        dbHelper.insertDrink("Monster", "Energy!", 16.0, 2.00, "monster_energy", 2);
-        dbHelper.insertDrink("Bawls", "Gamerz", 12.0, 2.00, "red_bull", 3);
+        dbHelper.insertDrink("Red Bull", "The original", 8.0, 1.97, "red_bull", 1);
+        dbHelper.insertDrink("Monster", "Energy!", 16.0, 1.84, "monster_energy", 2);
+        dbHelper.insertDrink("Bawls", "Gamerz", 12.0, 2.77, "bawls", 3);
+        dbHelper.insertDrink("Rockstar", "Party like a...", 12.0, 1.84, "rockstar", 4);
+        dbHelper.insertDrink(
+                "5-Hour Energy", "Hours of energy now", 12.0, 3.77, "five_hour_energy", 5);
 
         drinkList = dbHelper.getAllDrinks();
 
@@ -82,7 +85,8 @@ public class DrinksActivity extends AppCompatActivity {
         SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
 
-        MenuItemCompat.setOnActionExpandListener(menu.findItem(R.id.search), new MenuItemCompat.OnActionExpandListener() {
+        MenuItemCompat.setOnActionExpandListener(menu.findItem(R.id.search),
+                new MenuItemCompat.OnActionExpandListener() {
             @Override
             public boolean onMenuItemActionCollapse(MenuItem item) {
                 drinkList = dbHelper.getAllDrinks();
