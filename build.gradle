@@ -21,3 +21,13 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+
+// Define versions in a single place
+ext {
+
+    // App dependencies
+    runnerVersion = '0.5'
+    espressoVersion = '2.2.2'
+    supportLibraryVersion = '24.0.0'
+}
