@@ -191,7 +191,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 //        String selection = DataEntryDrinks.COLUMN_DRINK_NAME + " LIKE ? OR "
 //         + DataEntryDrinks.COLUMN_DRINK_DESCRIPTION + " LIKE ?";
 
-        String selection = "Select * from drinks where " + DataEntryDrinks.COLUMN_DRINK_DESCRIPTION + " LIKE ? OR "
+        String selection = "Select * from drinks where " + DataEntryDrinks.COLUMN_DRINK_NAME + " LIKE ? OR "
                 + DataEntryDrinks.COLUMN_DRINK_DESCRIPTION + " LIKE ?";
 
         // Define the selection values. The ?'s in the selection

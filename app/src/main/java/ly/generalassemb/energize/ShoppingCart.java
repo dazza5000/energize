@@ -31,4 +31,14 @@ public class ShoppingCart {
     public ArrayList<Drink> getDrinks(){
         return drinks;
     }
+
+    public Double getCartTotal(){
+        Double total= 0.00;
+//        if (drinks.size() > 0) {
+            for (Drink drink : drinks) {
+                total += drink.getPrice();
+            }
+//        }
+        return total;
+    }
 }

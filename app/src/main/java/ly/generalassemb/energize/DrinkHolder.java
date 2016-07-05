@@ -64,7 +64,9 @@ public class DrinkHolder extends RecyclerView.ViewHolder implements
 
     @Override
     public void onClick(View v) {
-        listener.onDrinkClick(drink.getId());
+        if (null != null) {
+            listener.onDrinkClick(drink.getId());
+        }
     }
 
 }

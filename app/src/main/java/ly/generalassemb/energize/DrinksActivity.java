@@ -78,7 +78,7 @@ public class DrinksActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.options_menu, menu);
+        inflater.inflate(R.menu.drinks_menu, menu);
 
         // Associate searchable configuration with the SearchView
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
@@ -128,6 +128,16 @@ public class DrinksActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.shopping_cart:
+                Intent drinkIntent = new Intent(DrinksActivity.this, ShoppingCartActivity.class);
+                startActivity(drinkIntent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
 
-
+    }
 }

@@ -39,4 +39,8 @@ public class Drink {
     public String getImageLocation() {
         return imageLocation;
     }
+
+    public double getPrice() {
+        return price;
+    }
 }

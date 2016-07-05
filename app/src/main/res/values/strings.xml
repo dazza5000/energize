@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Energize</string>
+    <string name="title_activity_shopping_cart">ShoppingCartActivity</string>
 </resources>

@@ -3,11 +3,16 @@ package ly.generalassemb.energize;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -22,6 +27,7 @@ public class DrinkDetailActivity extends AppCompatActivity {
     private ImageView drinkImageView;
     private TextView drinkNameTextView;
     private TextView drinkDescriptionTextView;
+    private ActionBar actionBar;
 
     private int drinkId;
     private DatabaseHelper databaseHelper;
@@ -45,6 +51,9 @@ public class DrinkDetailActivity extends AppCompatActivity {
         databaseHelper = DatabaseHelper.getInstance(getApplicationContext());
         drink = databaseHelper.getDrink(drinkId);
 
+        actionBar = (ActionBar) getSupportActionBar();
+        actionBar.setTitle(drink.getName());
+
         drinkNameTextView.setText(drink.getName());
         drinkDescriptionTextView.setText(drink.getDescription());
         int id = this.getResources().getIdentifier(drink.getImageLocation(), "drawable", this.getPackageName());
@@ -56,6 +65,29 @@ public class DrinkDetailActivity extends AppCompatActivity {
         drinkDetailLinearLayout.setBackgroundColor(p.getLightVibrantColor(
                 drinkImageView.getContext().getResources().getColor(R.color.colorAccent)));
 
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.drink_detail_menu, menu);
+        return true;
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_buy:
+                ShoppingCart.getInstance().addDrink(drink);
+                Toast.makeText(DrinkDetailActivity.this,
+                        "You added a: " +drink.getName() + " to your cart!"
+                        , Toast.LENGTH_SHORT).show();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
 
     }
 }
