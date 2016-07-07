@@ -51,11 +51,12 @@ public class DrinkDetailActivity extends AppCompatActivity {
         databaseHelper = DatabaseHelper.getInstance(getApplicationContext());
         drink = databaseHelper.getDrink(drinkId);
 
-        actionBar = (ActionBar) getSupportActionBar();
+        actionBar = getSupportActionBar();
         actionBar.setTitle(drink.getName());
 
         drinkNameTextView.setText(drink.getName());
         drinkDescriptionTextView.setText(drink.getDescription());
+
         int id = this.getResources().getIdentifier(drink.getImageLocation(), "drawable", this.getPackageName());
         Picasso.with(DrinkDetailActivity.this).load(id).into(drinkImageView);
 
@@ -82,7 +83,7 @@ public class DrinkDetailActivity extends AppCompatActivity {
             case R.id.menu_buy:
                 ShoppingCart.getInstance().addDrink(drink);
                 Toast.makeText(DrinkDetailActivity.this,
-                        "You added a: " +drink.getName() + " to your cart!"
+                        drink.getName() + "added to your cart!"
                         , Toast.LENGTH_SHORT).show();
                 return true;
             default:

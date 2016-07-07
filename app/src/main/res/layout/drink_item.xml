@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-o
+
         <ly.generalassemb.energize.RoundedImageView
             android:id="@+id/drink_detail_image_view"
             android:layout_width="0dp"
@@ -44,6 +44,11 @@ o
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Gives you wings"/>
+            <TextView
+                android:id="@+id/drink_description_size_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="12.0 Ounces"/>
 
         </LinearLayout>
             <TextView
@@ -51,6 +56,7 @@ o
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:gravity="right"
                 style="@android:style/TextAppearance.Large"
                 android:text="$1.99"/>
         </LinearLayout>

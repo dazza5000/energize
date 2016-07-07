@@ -3,6 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item android:id="@+id/menu_buy"
         android:title="Buy"
-        android:icon="@drawable/ic_cart_plus_white_36dp"
+        android:icon="@drawable/ic_cart_plus_white_24dp"
         app:showAsAction="always|withText" />
 </menu>

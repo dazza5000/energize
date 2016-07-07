@@ -24,11 +24,11 @@ public class DrinkHolder extends RecyclerView.ViewHolder implements
     private View itemView;
 
     private CardView drinkCardView;
+    private RoundedImageView drinkImageView;
     private TextView nameTextView;
     private TextView descriptionTextView;
     private TextView priceTextView;
-    private RoundedImageView drinkImageView;
-
+    private TextView sizeTextView;
 
     public DrinkHolder(View itemView, DrinkItemListener listListener) {
         super(itemView);
@@ -41,6 +41,7 @@ public class DrinkHolder extends RecyclerView.ViewHolder implements
         descriptionTextView = (TextView)
                 itemView.findViewById(R.id.drink_description_text_view);
         priceTextView = (TextView) itemView.findViewById(R.id.drink_price_text_view);
+        sizeTextView = (TextView) itemView.findViewById(R.id.drink_description_size_view);
         drinkImageView = (RoundedImageView) itemView.findViewById(R.id.drink_detail_image_view);
 
     }
@@ -49,22 +50,25 @@ public class DrinkHolder extends RecyclerView.ViewHolder implements
         this.drink = drink;
         nameTextView.setText(drink.getName());
         descriptionTextView.setText(drink.getDescription());
+        priceTextView.setText(String.valueOf(drink.getPrice()));
+        sizeTextView.setText(String.valueOf(drink.getSize()));
+
         int id = drinkImageView.getContext().getResources()
                 .getIdentifier(drink.getImageLocation(), "drawable",
                         drinkImageView.getContext().getPackageName());
+
+        Picasso.with(drinkImageView.getContext()).load(id).into(drinkImageView);
+
         Bitmap icon = BitmapFactory.decodeResource(drinkImageView.getContext().getResources(),
                 id);
         Palette p = Palette.from(icon).generate();
         drinkCardView.setBackgroundColor(p.getLightVibrantColor(
                 drinkImageView.getContext().getResources().getColor(R.color.colorAccent)));
-
-        Picasso.with(drinkImageView.getContext()).load(id).into(drinkImageView);
-
     }
 
     @Override
     public void onClick(View v) {
-        if (null != null) {
+        if (null != listener) {
             listener.onDrinkClick(drink.getId());
         }
     }

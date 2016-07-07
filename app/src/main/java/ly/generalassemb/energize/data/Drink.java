@@ -43,4 +43,8 @@ public class Drink {
     public double getPrice() {
         return price;
     }
+
+    public double getSize() {
+        return size;
+    }
 }

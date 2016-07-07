@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -18,6 +19,8 @@ import java.util.List;
 import ly.generalassemb.energize.DrinkAdapter.DrinkItemListener;
 import ly.generalassemb.energize.data.DatabaseHelper;
 import ly.generalassemb.energize.data.Drink;
+
+import static android.content.res.Configuration.ORIENTATION_LANDSCAPE;
 
 public class DrinksActivity extends AppCompatActivity {
 
@@ -35,29 +38,19 @@ public class DrinksActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        Drink redbull = new Drink(1, "Red Bull", "The original", 8.0, 3.00, "red_bull.jpg", 1);
-//        Drink monster = new Drink(2, "Monster", "Energy!", 16.0, 2.00, "monster_energy.jpg", 2);
-//        Drink bawls = new Drink(3, "Bawls", "Gamerz", 12.0, 2.00, "bawls.jpg", 3);
-
-//        drinkList = new ArrayList<>();
-//
-//        drinkList.add(redbull);
-//        drinkList.add(monster);
-//        drinkList.add(bawls);
-
         dbHelper = DatabaseHelper.getInstance(getApplicationContext());
         dbHelper.cleanDatabase();
-        dbHelper.insertDrink("Red Bull", "The original", 8.0, 1.97, "red_bull", 1);
-        dbHelper.insertDrink("Monster", "Energy!", 16.0, 1.84, "monster_energy", 2);
-        dbHelper.insertDrink("Bawls", "Gamerz", 12.0, 2.77, "bawls", 3);
-        dbHelper.insertDrink("Rockstar", "Party like a...", 12.0, 1.84, "rockstar", 4);
-        dbHelper.insertDrink(
-                "5-Hour Energy", "Hours of energy now", 12.0, 3.77, "five_hour_energy", 5);
+        dbHelper.populateDatabase();
 
         drinkList = dbHelper.getAllDrinks();
 
         drinkRecyclerView = (RecyclerView) findViewById(R.id.drink_recycler_view);
-        drinkRecyclerView.setLayoutManager(new LinearLayoutManager(DrinksActivity.this));
+
+        if(getResources().getConfiguration().orientation == ORIENTATION_LANDSCAPE) {
+            drinkRecyclerView.setLayoutManager(new GridLayoutManager(DrinksActivity.this, 2));
+        } else{
+            drinkRecyclerView.setLayoutManager(new LinearLayoutManager(DrinksActivity.this));
+        }
 
         drinkItemListener = new DrinkItemListener() {
             @Override
