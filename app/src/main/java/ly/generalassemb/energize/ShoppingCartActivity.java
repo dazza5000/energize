@@ -30,17 +30,21 @@ public class ShoppingCartActivity extends AppCompatActivity {
 
         shoppingCartItems = ShoppingCart.getInstance().getDrinks();
 
-        if (shoppingCartItems.size() > 0){
+        if (shoppingCartItems.size() > 0) {
+
             DrinkAdapter shoppingCartItemsAdapter = new DrinkAdapter(shoppingCartItems, null);
 
-        shoppingCartRecyclerView.setAdapter(shoppingCartItemsAdapter);
+            shoppingCartRecyclerView.setAdapter(shoppingCartItemsAdapter);
+            shoppingCartRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        shoppingCartRecyclerView.setLayoutManager(new LinearLayoutManager(this));
             shoppingCartRecyclerView.setVisibility(View.VISIBLE);
             emptyCartTextView.setVisibility(View.GONE);
-    } else {
+
+        } else {
+
             shoppingCartRecyclerView.setVisibility(View.GONE);
             emptyCartTextView.setVisibility(View.VISIBLE);
+
         }
     }
 

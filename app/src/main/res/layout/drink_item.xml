@@ -16,14 +16,13 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-        <ly.generalassemb.energize.RoundedImageView
+        <ImageView
             android:id="@+id/drink_detail_image_view"
             android:layout_width="0dp"
-            android:layout_height="100dp"
+            android:layout_height="133dp"
             android:layout_weight="1"
             android:layout_gravity="center_vertical"
             android:gravity="center_vertical"
-            android:scaleType="centerCrop"
             android:src="@drawable/power"/>
 
         <LinearLayout
@@ -55,7 +54,7 @@
             <TextView
                 android:id="@+id/drink_price_text_view"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="right"
                 style="@android:style/TextAppearance.Large"
