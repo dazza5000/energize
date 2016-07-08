@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +12,8 @@ import android.support.v7.graphics.Palette;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -75,6 +78,13 @@ public class DrinkDetailActivity extends AppCompatActivity {
 
         actionBar.setBackgroundDrawable(new ColorDrawable((p.getLightVibrantColor(
                 drinkImageView.getContext().getResources().getColor(R.color.colorAccent)))));
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(p.getDarkVibrantColor(
+                    drinkImageView.getContext().getResources().getColor(R.color.colorAccent)));
+        }
 
         manufacturerDescriptionTextView.setText("Description: "+manufacturer.getDescription());
         manufacturerLocationTextView.setText("Location: "+manufacturer.getLocation());
