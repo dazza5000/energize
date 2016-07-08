@@ -57,7 +57,11 @@ public class DrinkHolder extends RecyclerView.ViewHolder implements
                 .getIdentifier(drink.getImageLocation(), "drawable",
                         drinkImageView.getContext().getPackageName());
 
-        Picasso.with(drinkImageView.getContext()).load(id).into(drinkImageView);
+        Picasso.with(drinkImageView.getContext())
+                .load(id)
+                .fit()
+                .centerCrop()
+                .into(drinkImageView);
 
         Bitmap icon = BitmapFactory.decodeResource(drinkImageView.getContext().getResources(),
                 id);

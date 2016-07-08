@@ -115,8 +115,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // create a new content value to store values
         ContentValues values = new ContentValues();
         values.put(DataEntryManufacturer.COLUMN_MANUFACTURER_NAME, name);
-        values.put(DataEntryManufacturer.COLUMN_MANUFACTURER_NAME, location);
-        values.put(DataEntryManufacturer.COLUMN_MANUFACTURER_NAME, description);
+        values.put(DataEntryManufacturer.COLUMN_MANUFACTURER_LOCATION, location);
+        values.put(DataEntryManufacturer.COLUMN_MANUFACTURER_DESCRIPTION, description);
 
         // Insert the row into the drinks table
         return db.insert(DataEntryManufacturer.TABLE_MANUFACTURER, null, values);
