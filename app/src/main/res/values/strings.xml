@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">Energize</string>
-    <string name="title_activity_shopping_cart">ShoppingCartActivity</string>
+    <string name="title_activity_shopping_cart">Shopping Cart</string>
     <string name="empty_cart">Your cart is empty!</string>
 </resources>
