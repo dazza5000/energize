@@ -168,24 +168,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // Get a reference to the database
         SQLiteDatabase db = getReadableDatabase();
 
-        // Define a projection, which tells the query to return only the columns mentioned
-        // similar to "SELECT column1, column2, column3"
-        String[] projection = new String[]{ DataEntryDrink._ID, DataEntryDrink.COLUMN_DRINK_NAME,
-                DataEntryDrink.COLUMN_DRINK_DESCRIPTION,
-                DataEntryDrink.COLUMN_DRINK_SIZE, DataEntryDrink.COLUMN_DRINK_PRICE,
-                DataEntryDrink.COLUMN_DRINK_IMAGE, DataEntryDrink.COLUMN_DRINK_MANUFACTURER};
-
-        // Define a selection, which defines the WHERE clause of the query (but not the values for it)
-        // similar to "WHERE x < 23", only without the value; "WHERE x < ?"
-        String selection = "_id = ?";
+        String selectDrinkQuery = "SELECT * FROM " + DataEntryDrink.TABLE_DRINK +
+                " INNER JOIN " + DataEntryManufacturer.TABLE_MANUFACTURER +
+                " ON " + DataEntryDrink.TABLE_DRINK + "." +DataEntryDrink.COLUMN_DRINK_MANUFACTURER
+                + "=" + DataEntryManufacturer.TABLE_MANUFACTURER + "." +DataEntryManufacturer._ID
+                + " WHERE " + DataEntryDrink.TABLE_DRINK + "." +DataEntryDrink._ID +"= ?";
 
         // Define the selection values. The ?'s in the selection
         // The number of values in the following array should equal the number of ? in the where clause
         String[] selectionArgs = new String[]{ String.valueOf(id) };
 
         // Make the query, getting the cursor object
-        Cursor cursor = db.query(DataEntryDrink.TABLE_DRINK, projection, selection, selectionArgs,
-                null, null, null, null);
+        Cursor cursor = db.rawQuery(selectDrinkQuery, selectionArgs);
 
         // With the cursor, create a new game object and return it
         cursor.moveToFirst();
@@ -223,7 +217,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 //        String selection = DataEntryDrinks.COLUMN_DRINK_NAME + " LIKE ? OR "
 //         + DataEntryDrinks.COLUMN_DRINK_DESCRIPTION + " LIKE ?";
 
-        String selection = "Select * from "+DataEntryDrink.TABLE_DRINK + " where " + DataEntryDrink.COLUMN_DRINK_NAME + " LIKE ? OR "
+        String selection = "Select * from "+DataEntryDrink.TABLE_DRINK + " where "
+                + DataEntryDrink.COLUMN_DRINK_NAME + " LIKE ? OR "
                 + DataEntryDrink.COLUMN_DRINK_DESCRIPTION + " LIKE ? OR "
                 + DataEntryDrink.COLUMN_DRINK_SIZE + " LIKE ?";
 
