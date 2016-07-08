@@ -3,6 +3,7 @@ package ly.generalassemb.energize;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -11,7 +12,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,30 +19,36 @@ import com.squareup.picasso.Picasso;
 
 import ly.generalassemb.energize.data.DatabaseHelper;
 import ly.generalassemb.energize.data.Drink;
+import ly.generalassemb.energize.data.Manufacturer;
 
 public class DrinkDetailActivity extends AppCompatActivity {
 
     public static final String EXTRA_DRINK_ID = "DRINK_ID";
 
-    private LinearLayout drinkDetailLinearLayout;
+    private ActionBar actionBar;
     private ImageView drinkImageView;
     private TextView drinkNameTextView;
     private TextView drinkDescriptionTextView;
-    private ActionBar actionBar;
+    private TextView manufacturerDescriptionTextView;
+    private TextView manufacturerLocationTextView;
 
     private int drinkId;
     private DatabaseHelper databaseHelper;
     private Drink drink;
+    private Manufacturer manufacturer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drink_detail);
 
-        drinkDetailLinearLayout = (LinearLayout) findViewById(R.id.drink_detail_linear_layout);
         drinkImageView = (ImageView) findViewById(R.id.drink_detail_image_view);
         drinkNameTextView = (TextView) findViewById(R.id.drink_detail_name_text_view);
         drinkDescriptionTextView = (TextView) findViewById(R.id.drink_detail_description_text_view);
+        manufacturerDescriptionTextView =
+                (TextView) findViewById(R.id.manufacturer_details_text_view);
+        manufacturerLocationTextView =
+                (TextView) findViewById(R.id.manufacturer_location_text_view);
 
         // Fetch the drinkId from the Extra data
         if (getIntent().hasExtra(EXTRA_DRINK_ID)) {
@@ -51,6 +57,7 @@ public class DrinkDetailActivity extends AppCompatActivity {
 
         databaseHelper = DatabaseHelper.getInstance(getApplicationContext());
         drink = databaseHelper.getDrink(drinkId);
+        manufacturer = databaseHelper.getManufacturerDetails(drinkId);
 
         actionBar = getSupportActionBar();
         actionBar.setTitle(drink.getName());
@@ -65,9 +72,12 @@ public class DrinkDetailActivity extends AppCompatActivity {
         Bitmap icon = BitmapFactory.decodeResource(drinkImageView.getContext().getResources(),
                 id);
         Palette p = Palette.from(icon).generate();
-        drinkDetailLinearLayout.setBackgroundColor(p.getLightVibrantColor(
-                drinkImageView.getContext().getResources().getColor(R.color.colorAccent)));
 
+        actionBar.setBackgroundDrawable(new ColorDrawable((p.getLightVibrantColor(
+                drinkImageView.getContext().getResources().getColor(R.color.colorAccent)))));
+
+        manufacturerDescriptionTextView.setText("Description: "+manufacturer.getDescription());
+        manufacturerLocationTextView.setText("Location: "+manufacturer.getLocation());
 
     }
 

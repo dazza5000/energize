@@ -168,18 +168,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // Get a reference to the database
         SQLiteDatabase db = getReadableDatabase();
 
-        String selectDrinkQuery = "SELECT * FROM " + DataEntryDrink.TABLE_DRINK +
-                " INNER JOIN " + DataEntryManufacturer.TABLE_MANUFACTURER +
-                " ON " + DataEntryDrink.TABLE_DRINK + "." +DataEntryDrink.COLUMN_DRINK_MANUFACTURER
-                + "=" + DataEntryManufacturer.TABLE_MANUFACTURER + "." +DataEntryManufacturer._ID
-                + " WHERE " + DataEntryDrink.TABLE_DRINK + "." +DataEntryDrink._ID +"= ?";
+        // Define a projection, which tells the query to return only the columns mentioned
+        // similar to "SELECT column1, column2, column3"
+        String[] projection = new String[]{ DataEntryDrink._ID, DataEntryDrink.COLUMN_DRINK_NAME,
+                DataEntryDrink.COLUMN_DRINK_DESCRIPTION,
+                DataEntryDrink.COLUMN_DRINK_SIZE, DataEntryDrink.COLUMN_DRINK_PRICE,
+                DataEntryDrink.COLUMN_DRINK_IMAGE, DataEntryDrink.COLUMN_DRINK_MANUFACTURER};
+
+        // Define a selection, which defines the WHERE clause of the query (but not the values for it)
+        // similar to "WHERE x < 23", only without the value; "WHERE x < ?"
+        String selection = "_id = ?";
 
         // Define the selection values. The ?'s in the selection
         // The number of values in the following array should equal the number of ? in the where clause
         String[] selectionArgs = new String[]{ String.valueOf(id) };
 
         // Make the query, getting the cursor object
-        Cursor cursor = db.rawQuery(selectDrinkQuery, selectionArgs);
+        Cursor cursor = db.query(DataEntryDrink.TABLE_DRINK, projection, selection, selectionArgs,
+                null, null, null, null);
 
         // With the cursor, create a new game object and return it
         cursor.moveToFirst();
@@ -200,22 +206,43 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return new Drink(id, name, description, size, price, image, manufacturerId);
     }
 
+    public Manufacturer getManufacturerDetails(int id){
+        // Get a reference to the database
+        SQLiteDatabase db = getReadableDatabase();
+
+        String selectDrinkQuery = "SELECT * FROM " + DataEntryDrink.TABLE_DRINK +
+                " INNER JOIN " + DataEntryManufacturer.TABLE_MANUFACTURER +
+                " ON " + DataEntryDrink.TABLE_DRINK + "." +DataEntryDrink.COLUMN_DRINK_MANUFACTURER
+                + "=" + DataEntryManufacturer.TABLE_MANUFACTURER + "." +DataEntryManufacturer._ID
+                + " WHERE " + DataEntryDrink.TABLE_DRINK + "." +DataEntryDrink._ID +"= ?";
+
+        // Define the selection values. The ?'s in the selection
+        // The number of values in the following array should equal the number of ? in the where clause
+        String[] selectionArgs = new String[]{ String.valueOf(id) };
+
+        // Make the query, getting the cursor object
+        Cursor cursor = db.rawQuery(selectDrinkQuery, selectionArgs);
+
+        // With the cursor, create a new game object and return it
+        cursor.moveToFirst();
+
+        String name = cursor.getString(
+                cursor.getColumnIndex(DataEntryManufacturer.COLUMN_MANUFACTURER_NAME));
+        String location = cursor.getString(
+                cursor.getColumnIndex(DataEntryManufacturer.COLUMN_MANUFACTURER_LOCATION));
+        String description = cursor.getString(
+                cursor.getColumnIndex(DataEntryManufacturer.COLUMN_MANUFACTURER_DESCRIPTION));
+
+        return new Manufacturer(name, location, description);
+    }
+
     public List<Drink> searchDrinks(String searchString){
         List<Drink> drinks = new ArrayList<>();
         // Get a reference to the database
         SQLiteDatabase db = getReadableDatabase();
 
-        // Define a projection, which tells the query to return only the columns mentioned
-        // similar to "SELECT column1, column2, column3"
-        String[] projection = new String[]{ DataEntryDrink._ID, DataEntryDrink.COLUMN_DRINK_NAME,
-                DataEntryDrink.COLUMN_DRINK_DESCRIPTION,
-                DataEntryDrink.COLUMN_DRINK_SIZE, DataEntryDrink.COLUMN_DRINK_PRICE,
-                DataEntryDrink.COLUMN_DRINK_IMAGE, DataEntryDrink.COLUMN_DRINK_MANUFACTURER};
-
         // Define a selection, which defines the WHERE clause of the query (but not the values for it)
         // similar to "WHERE x < 23", only without the value; "WHERE x < ?"
-//        String selection = DataEntryDrinks.COLUMN_DRINK_NAME + " LIKE ? OR "
-//         + DataEntryDrinks.COLUMN_DRINK_DESCRIPTION + " LIKE ?";
 
         String selection = "Select * from "+DataEntryDrink.TABLE_DRINK + " where "
                 + DataEntryDrink.COLUMN_DRINK_NAME + " LIKE ? OR "
@@ -224,6 +251,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         // Define the selection values. The ?'s in the selection
         // The number of values in the following array should equal the number of ? in the where clause
+
         String[] selectionArgs = new String[]{"%" + searchString + "%", "%" + searchString + "%",
                 "%" + searchString + "%"};
 
@@ -254,6 +282,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return drinks;
     }
 
+
+    // Helper method to populate our database
     public void populateDatabase() {
 
         long redBullManufacturerId = insertManufacturer("Red Bull", "Austria",
@@ -272,7 +302,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                         "convenience stores and electronic retailers across the United States.");
 
         long rockstarManufacturerId = insertManufacturer("Rockstar", "United States",
-                "Rockstar (branded ROCKST★R) is an Energy Drink created in 2001.[1] " +
+                "Rockstar (branded ROCKST★R) is an Energy Drink created in 2001. " +
                         "With 14% of the US market in 2008, Rockstar is a leading energy" +
                         " drink brand.");
 
