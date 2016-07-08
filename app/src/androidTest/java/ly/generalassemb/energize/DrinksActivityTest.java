@@ -3,6 +3,8 @@ package ly.generalassemb.energize;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.LargeTest;
+import android.view.KeyEvent;
+import android.widget.EditText;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -12,6 +14,7 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.pressKey;
 import static android.support.test.espresso.action.ViewActions.typeText;
+import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
 /**
@@ -29,7 +32,10 @@ public class DrinksActivityTest {
     public void searchDrinkTest() throws Exception {
 
         onView(withId(R.id.search)).perform(click());
-        onView(withId(android.support.design.R.id.search_src_text))
-                .perform(typeText("red"), pressKey(66));
+
+        onView(withId(android.support.design.R.id.search_src_text)).perform(click());
+        onView(isAssignableFrom(EditText.class)).perform(typeText("red"),
+                pressKey(KeyEvent.KEYCODE_ENTER));
+
     }
 }

@@ -5,4 +5,8 @@
         android:title="Buy"
         android:icon="@drawable/ic_cart_plus_white_24dp"
         app:showAsAction="always|withText" />
+    <item android:id="@+id/shopping_cart"
+        android:title="View Cart"
+        android:icon="@drawable/ic_cart_white_24dp"
+        app:showAsAction="always|withText"/>
 </menu>

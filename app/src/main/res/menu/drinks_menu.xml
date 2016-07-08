@@ -7,7 +7,7 @@
         app:showAsAction="collapseActionView|always"
         app:actionViewClass="android.support.v7.widget.SearchView" />
     <item android:id="@+id/shopping_cart"
-        android:title="Shopping Cart"
+        android:title="View Cart"
         android:icon="@drawable/ic_cart_white_24dp"
-        app:showAsAction="always"/>
+        app:showAsAction="always|withText"/>
 </menu>

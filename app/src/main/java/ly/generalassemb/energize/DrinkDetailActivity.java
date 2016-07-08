@@ -1,5 +1,6 @@
 package ly.generalassemb.energize;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -57,7 +58,8 @@ public class DrinkDetailActivity extends AppCompatActivity {
         drinkNameTextView.setText(drink.getName());
         drinkDescriptionTextView.setText(drink.getDescription());
 
-        int id = this.getResources().getIdentifier(drink.getImageLocation(), "drawable", this.getPackageName());
+        int id = this.getResources().getIdentifier(drink.getImageLocation(), "drawable",
+                this.getPackageName());
         Picasso.with(DrinkDetailActivity.this).load(id).into(drinkImageView);
 
         Bitmap icon = BitmapFactory.decodeResource(drinkImageView.getContext().getResources(),
@@ -83,8 +85,13 @@ public class DrinkDetailActivity extends AppCompatActivity {
             case R.id.menu_buy:
                 ShoppingCart.getInstance().addDrink(drink);
                 Toast.makeText(DrinkDetailActivity.this,
-                        drink.getName() + "added to your cart!"
+                        drink.getName() + " added to your cart!"
                         , Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.shopping_cart:
+                Intent drinkIntent = new Intent(DrinkDetailActivity.this,
+                        ShoppingCartActivity.class);
+                startActivity(drinkIntent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
