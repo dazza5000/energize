@@ -36,7 +36,6 @@ public class DrinkDetailActivity extends AppCompatActivity {
     private TextView manufacturerLocationTextView;
 
     private int drinkId;
-    private DatabaseHelper databaseHelper;
     private Drink drink;
     private Manufacturer manufacturer;
 
@@ -53,12 +52,12 @@ public class DrinkDetailActivity extends AppCompatActivity {
         manufacturerLocationTextView =
                 (TextView) findViewById(R.id.manufacturer_location_text_view);
 
-        // Fetch the drinkId from the Extra data
+        // Fetch the drinkId from the Extra
         if (getIntent().hasExtra(EXTRA_DRINK_ID)) {
             drinkId = getIntent().getExtras().getInt(EXTRA_DRINK_ID);
         }
 
-        databaseHelper = DatabaseHelper.getInstance(getApplicationContext());
+        DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getApplicationContext());
         drink = databaseHelper.getDrink(drinkId);
         manufacturer = databaseHelper.getManufacturerDetails(drinkId);
 
@@ -76,9 +75,11 @@ public class DrinkDetailActivity extends AppCompatActivity {
                 id);
         Palette p = Palette.from(icon).generate();
 
+        // Set the ActionBar color using colors from the product image
         actionBar.setBackgroundDrawable(new ColorDrawable((p.getLightVibrantColor(
                 drinkImageView.getContext().getResources().getColor(R.color.colorAccent)))));
 
+        // Set the Status Bar color using colors from the product image
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
@@ -86,8 +87,8 @@ public class DrinkDetailActivity extends AppCompatActivity {
                     drinkImageView.getContext().getResources().getColor(R.color.colorAccent)));
         }
 
-        manufacturerDescriptionTextView.setText("Description: "+manufacturer.getDescription());
-        manufacturerLocationTextView.setText("Location: "+manufacturer.getLocation());
+        manufacturerDescriptionTextView.setText("Description: " + manufacturer.getDescription());
+        manufacturerLocationTextView.setText("Location: " + manufacturer.getLocation());
 
     }
 
